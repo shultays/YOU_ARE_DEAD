@@ -15,7 +15,7 @@ esac; shift; done
 trap 'tput cnorm -- normal' EXIT
 tput civis -- invisible
 
-CHOICES="~.      "
+CHOICES="~.~.         @"
 
 you_win() {
     printf "$DUNGEON\nLEVEL $LEVEL, SCORE $SCORE. YOU WIN. YOU ARE DEAD.\n"
@@ -38,6 +38,9 @@ build_dungeon() {
 
 build_dungeon
 
+s1='@ '
+s2=' @'
+
 while :; do
 
     COLS=$(tput cols)
@@ -46,6 +49,10 @@ while :; do
 
     printf "$DUNGEON\r%*s$YOU\r" $((SCORE % $COLS))
 
+    DUNGEON=${DUNGEON//$s1/$s2}
+    t=$s1
+    s1=$s2
+    s2=$t
     read -s -n 1
 
     case "$REPLY" in
